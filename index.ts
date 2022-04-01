@@ -1,22 +1,67 @@
-// アロー関数は() => {}で書く方法
-let add = (x1: number, x2: number): number => {
-  return x1 + x2;
-};
-console.log(add(1, 3));
+// クラス
+// アクセス修飾子
+class Animal {
+  age: number = 10;
+  private _legs = 1;
 
-// 一文に収まる場合は省略できる。引数が1個の時だけ引数のカッコ略セル
-let hello = (name) => `hello, ${name}`;
+  constructor(isCry: boolean) {
+    this.isCry = isCry;
+  }
 
-console.log(hello('anna'));
+  cry(): void {
+    if (this.isCry) {
+      alert(`age: ${this.age}`);
+    }
+  }
 
-// functionで書いたとき、this　は下記の関数を設定したボタン要素自体を参照できる<button></buttton>
-document.getElementById('button').addEventListener('click', function () {
-  console.log(this);
-});
+  // アクセサメソッド　getter setter
+  get legs() {
+    if (this._legs > 2) {
+      return this._legs;
+    }
+  }
 
-// アロー関数で書いたときのthisは、Windowオブジェクトを参照する 関数が定義された場所のthisを参照する。グローバルスコープだねとなるのでWindowになる
-document.getElementById('button1').addEventListener('click', () => {
-  console.log(this);
-});
+  set legs(value: number) {
+    if (value > 1) {
+      this._legs = value;
+    }
+  }
 
-// thisを意識しなくていいように基本アロー関数がいい
+  // get email() {
+  //   return this.formGroup.get('email');
+  // }
+  // dog.email
+
+  //読み取り専用の時はgetterだけ、書き込み専用の時はsetterだけ
+  //プロパティ名と同じアクセサメソッドは定義できない
+}
+
+let dog = new Animal(true);
+// dog.cry();
+dog.legs = 4;
+console.log(dog.legs);
+
+// アクセサメソッドは、普通にプロパティ設定してprivateだったりすると外部から取ってこれないので、getterメソッドを指定して上げるといいらしい
+// でも、じゃぁ初めからpublicで指定しておけばいいじゃんって思うんだけど
+// あ、恐らく、素直にこの変数の中身は？と聞かれたときに、初めに持っている数字ではないものを渡さなければいけないときとかがあって、そのためにこのようにしているのかな一旦別のものを
+
+// プロパティって、普通に定義するのとconstructorするのと何が違うのかわからなかったけど。
+// 外部から引数としてもらってきた値をいれたい場合はconstructorで定義した方がいいよねっていうこと見たい。
+// class Anumal {
+//   isCry: boolean = true
+//   constructor(isCry: boolean) {
+//     this.isCry = isCry
+//   }
+// }
+// ってやると冗長だもんね。
+
+// そして、アクセス修飾子を使うことでわざわざthis.isCry = isCryを書かなくてよくなるっぽい。
+// アクセス修飾子はpublic, protected, privateの3つ
+// public はどこからでもアクセス可能。インスタンスで自由にアクセスできる
+// protectedは自身のクラスと派生クラスの中でアクセスできる。インスタンス化したときにアクセスできない。
+// privateはそのクラスの中で飲みアクセス可能。派生クラスからはアクセスできない。
+
+// class Animal {
+//   isCry: boolean = true
+//   constructor(public isCry: boolean) {}
+// }
