@@ -1,69 +1,63 @@
-// 文字列
-var title: string = 'Angular';
-title = 'Angular!';
+// let
+let date = new Date();
+// スコープの範囲がvarと異なる
 
-// 数値
-var n: number = 9;
+// if (true) {
+//   var foo = 'foo';
+// }
+// console.log(foo)
+// varはifの外部から参照することができる。
 
-// 真偽値
-var isOpen: boolean = true;
+// if (true) {
+//   let boo = 'boo';
+// }
+// console.log(boo)
+// letはifの外部から参照できない　Error: boo is not defined
 
-// 配列型（文字列しか入れられない配列）
-var keywords: string[] = ['name', 'email', 'body'];
+// for (var i = 0; i < 5; i++) {
+//   console.log(i);
+// }
 
-// 他のデータ型も入れられる配列にしたい時
-var keywordsWithNum: (string | number)[] = ['name', 'email', 'body', 0];
+// console.log(i)
 
-// タプル型（指定の順に型を入れてね）
-var payment: [number, string, number] = [1, 'apple', 300];
+// for (let j = 0; j < 5; j++) {
+//   console.log(j);
+// }
 
-// オブジェクト型
-var object: { [key: string]: string } = {
-  name: 'Yohei Isokawa',
-  id: 'test',
-};
+// console.log(j);
 
-// オブジェクトキーワード（これは、細かい型を指定せず、ざっくりオブジェクトだよということだけ定義するというもの）
-var post: object = [{ id: 12, content: 'lorem ipsum' }];
-
-//共用型（union型) パイプで連続で繋げていけば1つの変数に複数を入れることができる。
-var sample: string | number;
-sample = 'aiueo';
-sample = 123;
-
-// enum型 定数を列挙する
-enum KeyCode {
-  Backspace = 8,
-  Tab = 9,
-  Enter = 13
+// 変数の巻き上げの件
+var hoge = 'hoge';
+function logHoge() {
+  console.log(hoge); //hoge
 }
+logHoge();
+// ➡無事にhogeが返ってくる
 
-console.log(KeyCode.Backspace);
-
-enum ErrorCode {
-  OK = 200,
-  BAD_RESPONSE = 400,
-  UNAUTHORIZED = 401,
+var hoga = 'hoga';
+function logHoga() {
+  console.log(hoga); //undefined
+  var hoga = 'new hoga!';
+  console.log(hoga); //new hoga!
 }
+logHoga();
+// なぜundefinedが入ってくるのか？　関数内の変数の巻き上げというのが発生する。
+// 関数の中で定義されたvar変数は裏側で、関数の先頭で中身なしの状態で変数定義されているらしい
+// var hoga = 'hoga';
+// function logHoga() {
+// 　var hoge; ←こんなかんじで！
+//   console.log(hoga); //undefined
+//   var hoga = 'new hoga!'
+//   console.log(hoga); //new hoga!
+// }
+// logHoga();
 
-console.log(ErrorCode.OK);
-
-// Enumは省略することもできる。自動でインデックスが振られる
-enum Character {
-  Bob,
-  Dad,
-  Mom
+// 関数内をletにしてみると、関数内すぐのconsole.log(foo)がエラーになる。これはletの場合は関数の巻き上げが起こらないため。
+// letを積極的に使うようにした方良い
+var foo = 'foo';
+function logFoo() {
+  console.log(foo);
+  let foo = 'new foo!';
+  console.log(foo); //new foo!
 }
-
-// any型 全てのデータ型を許容してくれる。普通のJSみたいなかんじ。TSの良さが死ぬのであんまり使わない方がいい
-var something: any = 'foo';
-something = 100;
-something = true;
-
-// null, undefined型 
-// 要素を取得するときに、ページローディング前だとnullになってしまう。HttpのElementまたはnullという感じで指定
-var el: Element | null = document.querySelector('#app');
-var foo: undefined = undefined;
-
-// 型をしていない変数 TSのコンパイラが型を指定してくれる。型推論。
-var unkown = 'string';
+logFoo();
