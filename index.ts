@@ -1,22 +1,32 @@
-// スプレッド演算子
-let categories = ['post', 'new', 'info'];
+// 分割代入
+let categories = ['post', 'new', 'info', 'other'];
+let [a, b] = categories;
+console.log(a, b); //post, newが出てくる
 
-// 複製
-let copyCat = [...categories];
-console.log(copyCat, copyCat === categories);
-// ...を使うことで別の配列として展開することができる
+// 1個飛ばしにもできる
+let [c, d, , f] = categories;
+console.log(c, d, f); //post, new, otherが出てくる
 
-let pushCat = ['other', ...categories];
-console.log(pushCat);
+// 一部をまとめる
+let [g, h, ...i] = categories;
+console.log(g, h, i); //post, new, [info,other]が出てくる
 
-// オブジェクトも展開できる
+// 変数の初期値の設定
+let [j = 10, k = 7] = [1];
+console.log(j, k); //1, 7が出てくる
+
+// オブジェクトも同様に
+// let post = { id: 1, content: 'dummy', created: '2020-01-01' };
+// let copyObj = { ...post };
+// console.log(copyObj);
+
+// const { id, content} = post;
+// console.log(id, content); //1, dummyが出てくる
+
+// 別名で取り出す キーの変数名で基本は取り出すのでこういう感じで書き換える
 let post = { id: 1, content: 'dummy', created: '2020-01-01' };
 let copyObj = { ...post };
 console.log(copyObj);
 
-// オブジェクトを配列で展開することはできない
-// let test = [...post];
-
-// 配列をオブジェクトで展開することはできる。インデックス値がキーになる
-let test = { ...categories };
-console.log(test);
+const { id, content: body } = post;
+console.log(id, body); //1, dummyが出てくる
