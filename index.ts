@@ -1,16 +1,22 @@
-// 関数
-// 返り値がないときはvoidで書く。省略可能
-// 仮引数に?を入れてundefinedにすることもできる
-// 初期値の設定も可能
-function greet(name: string = 'anna'): void {
-  console.log(`Hello World ${name}`);
-}
-greet();
+// アロー関数は() => {}で書く方法
+let add = (x1: number, x2: number): number => {
+  return x1 + x2;
+};
+console.log(add(1, 3));
 
-// 可変長引数
-function sum(...values: number[]): number {
-  return values.reduce(function (prev, current) {
-    return prev + current;
-  });
-}
-console.log(sum(1, 3, 5, 9));
+// 一文に収まる場合は省略できる。引数が1個の時だけ引数のカッコ略セル
+let hello = (name) => `hello, ${name}`;
+
+console.log(hello('anna'));
+
+// functionで書いたとき、this　は下記の関数を設定したボタン要素自体を参照できる<button></buttton>
+document.getElementById('button').addEventListener('click', function () {
+  console.log(this);
+});
+
+// アロー関数で書いたときのthisは、Windowオブジェクトを参照する 関数が定義された場所のthisを参照する。グローバルスコープだねとなるのでWindowになる
+document.getElementById('button1').addEventListener('click', () => {
+  console.log(this);
+});
+
+// thisを意識しなくていいように基本アロー関数がいい
