@@ -1,35 +1,37 @@
-// クラス
-// アクセス修飾子
-class Animal {
-  age: number = 10;
-  private _legs = 1;
+//インターフェイス
+interface Animal {
+  name: string;
+  legs: number;
+  isCry: boolean;
+  cry(): void;
+}
 
-  constructor(isCry: boolean) {
-    this.isCry = isCry;
+interface SuperAnimal extends Animal {
+  canRun: boolean;
+
+}
+
+let Dog: Animal = {
+  name: 'maru',
+  legs: 4,
+  isCry: true;
+  cry: function () {
+    console.log('bow wow')
   }
+}
 
+
+class Dog implements SuperAnimal {
+  name: string = 'Maru';
+  legs: number = 4;
+  isCry: boolean = true;
+  canRun: boolean = true;
   cry(): void {
-    if (this.isCry) {
-      alert(`age: ${this.age}`);
+    if (this.isCry){
+      console.log('bow, wow');
     }
   }
 }
 
-class Dog extends Animal {
-  consutructor(public isCry: boolean) {
-    // 元のクラスのコンストラクタを実行できる。むしろやらないと親クラスのプロパティの書記かは行われない。
-    super(isCry);
-  }
-
-  cry(): void {
-    // if (this.isCry){
-    //   alert('Bow, wow')
-    // }
-    console.log('dog is cry');
-    // 親クラスのcryメソッドを呼ぶ場合
-    // super.cry();
-  }
-}
-
-let dog = new Dog(true);
-dog.cry();
+let maru = new Dog();
+maru.cry()
