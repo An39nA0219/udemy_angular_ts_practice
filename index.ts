@@ -1,37 +1,33 @@
-//インターフェイス
-interface Animal {
-  name: string;
-  legs: number;
-  isCry: boolean;
-  cry(): void;
+// ジェネリック
+class NumberStore {
+  data: number;
 }
 
-interface SuperAnimal extends Animal {
-  canRun: boolean;
-
+class StringStore {
+  data: string;
 }
+// データ型が違うだけの同じプロパティを持っておくのはだるい。anyを使ってもいいが、型チェックが入らないのでそれはそれでいや。
 
-let Dog: Animal = {
-  name: 'maru',
-  legs: 4,
-  isCry: true;
-  cry: function () {
-    console.log('bow wow')
+class Store<T> {
+  data: T;
+  getStore(): T {
+    // T,　U, V, T1, T2, T3と続く
+    return this.data;
   }
 }
 
+let stringData = new Store<string>();
+let booleanData = new Store<boolean>();
 
-class Dog implements SuperAnimal {
-  name: string = 'Maru';
-  legs: number = 4;
-  isCry: boolean = true;
-  canRun: boolean = true;
-  cry(): void {
-    if (this.isCry){
-      console.log('bow, wow');
-    }
-  }
+function hello<T>(keyword: T): T {
+  console.log(`Log: ${keyword}.`);
 }
+hello<string>('Hello, anna');
+hello<number>(1000);
 
-let maru = new Dog();
-maru.cry()
+class Component<T, U> {
+  name: T;
+  created: U;
+}
+let component = new Component<string, number>();
+component.created = 1;
